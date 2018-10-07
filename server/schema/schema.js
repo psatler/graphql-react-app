@@ -6,14 +6,19 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLID,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLList
 } = graphql;
 
 //dummy data
 let books = [
   { name: "Name of the Wind", genre: "Fantasy", id: "1", authorId: "1" },
   { name: "The Final Empire", genre: "Fantasy", id: "2", authorId: "2" },
-  { name: "The Long Earth", genre: "Sci-fi", id: "3", authorId: "3" }
+  { name: "The Long Earth", genre: "Sci-fi", id: "3", authorId: "3" },
+  { name: "The dafsd fdfsd Empire", genre: "Fantasy", id: "4", authorId: "2" },
+  { name: "The test testidasd", genre: "Sci-fi", id: "5", authorId: "3" },
+  { name: "Pasd mdsfsf ", genre: "Fantasy", id: "6", authorId: "3" },
+  { name: "Tdsfd sfsdf sd", genre: "Sci-fi", id: "7", authorId: "3" }
 ];
 
 var authors = [
@@ -26,6 +31,7 @@ var authors = [
 const BookType = new GraphQLObjectType({
   name: "Book",
   fields: () => ({
+    //wrapping this fields inside a function so we load the code, but does not execute it right away, running them later after
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     genre: { type: GraphQLString },
@@ -44,7 +50,15 @@ const AuthorType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    age: { type: GraphQLInt }
+    age: { type: GraphQLInt },
+    books: {
+      //several books, so, a list
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        //parent.id is the id in the AuthorType
+        return _.filter(books, { authorId: parent.id }); //filter on the books array for the authorId
+      }
+    }
   })
 });
 
