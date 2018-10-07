@@ -8,7 +8,8 @@ const app = express();
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema
+    schema,
+    graphiql: true //telling to show the graphi tool when we reach the /graphql endpoint
   })
 );
 
