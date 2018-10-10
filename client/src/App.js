@@ -2,11 +2,15 @@ import React, { Component } from "react";
 // import logo from './logo.svg';
 // import './App.css';
 
+//components
+import BookList from "./components/BookList";
+
 class App extends Component {
   render() {
     return (
       <div id="main">
         <h1>The Graphql's Library</h1>
+        <BookList />
         {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
