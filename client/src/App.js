@@ -1,31 +1,25 @@
 import React, { Component } from "react";
-// import logo from './logo.svg';
-// import './App.css';
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
 //components
 import BookList from "./components/BookList";
 
+//apollo client setup
+const GQL_URL = "http://localhost:4000/graphql"; //the endpoint we're gonna make requests to
+const client = new ApolloClient({
+  uri: GQL_URL
+});
+
 class App extends Component {
   render() {
     return (
-      <div id="main">
-        <h1>The Graphql's Library</h1>
-        <BookList />
-        {/* <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header> */}
-      </div>
+      <ApolloProvider client={client}>
+        <div id="main">
+          <h1>The Graphql's Library</h1>
+          <BookList />
+        </div>
+      </ApolloProvider>
     );
   }
 }
