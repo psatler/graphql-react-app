@@ -2,6 +2,8 @@ Link for installing React Apollo with Reactjs on the frontend: [Apollo-Client Re
 
 
 
+---
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
