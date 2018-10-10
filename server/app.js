@@ -3,8 +3,12 @@ const graphqlHTTP = require("express-graphql"); //it's going to handle gql reque
 const schema = require("./schema/schema");
 const mongoose = require("mongoose");
 require("dotenv").config(); //it was not working using only process.env, so this package was required
+const cors = require("cors");
 
 const app = express();
+
+//allow cross-origin requests
+app.use(cors());
 
 //must have a .env file at the project root directory
 const USER = process.env.M_LAB_USER;
