@@ -4,6 +4,7 @@ import { ApolloProvider } from "react-apollo";
 
 //components
 import BookList from "./components/BookList";
+import AddBook from "./components/AddBook";
 
 //apollo client setup
 const GQL_URL = "http://localhost:4000/graphql"; //the endpoint we're gonna make requests to
@@ -18,6 +19,7 @@ class App extends Component {
         <div id="main">
           <h1>The Graphql's Library</h1>
           <BookList />
+          <AddBook />
         </div>
       </ApolloProvider>
     );
