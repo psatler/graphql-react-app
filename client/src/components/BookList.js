@@ -1,16 +1,6 @@
 import React, { Component } from "react";
-import { gql } from "apollo-boost"; //importing gql so we can parse/construct graphql queries into JS
 import { graphql } from "react-apollo"; //react apollo bindings - it is bound using currying (at the export default below)
-
-//constructing the graphql query
-const getBooksQuery = gql`
-  {
-    books {
-      name
-      id
-    }
-  }
-`;
+import { getBooksQuery } from "../queries/queries";
 
 class BookList extends Component {
   displayBooks = () => {

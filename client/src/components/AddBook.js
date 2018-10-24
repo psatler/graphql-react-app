@@ -1,28 +1,36 @@
 import React, { Component } from "react";
-import { gql } from "apollo-boost"; //importing gql so we can parse/construct graphql queries into JS
 import { graphql } from "react-apollo"; //react apollo bindings - it is bound using currying (at the export default below)
-
-//constructing the graphql query
-const getAuthorsQuery = gql`
-  {
-    authors {
-      name
-      id
-    }
-  }
-`;
+import { getAuthorsQuery } from "../queries/queries";
 
 class AddBook extends Component {
+  //initial state
+  state = {
+    name: "",
+    genre: "",
+    authorid: ""
+  };
+
+  handleChange = e => {
+    // console.log("e.target.name", e.target.name);
+    //using the name prop of the element
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  submitForm = event => {
+    console.log(this.state);
+    event.preventDefault(); //avoiding page refreshes
+  };
+
   //function to load authors from server and populate the options
   displayAuthors = () => {
     const data = this.props.data;
     if (data.loading) {
-      // console.log("here 1");
       //if it's still loading, display a disabled option
       return <option disabled>Loading authors...</option>;
     } else {
       //if it has loaded
-      console.log(data.authors);
       return data.authors.map(author => {
         return (
           <option key={author.id} value={author.id}>
@@ -35,21 +43,36 @@ class AddBook extends Component {
 
   render() {
     // console.log(this.props);
+    const { name, genre, authorid } = this.state;
     return (
-      <form id="add-book">
+      <form id="add-book" onSubmit={this.submitForm}>
         <div className="field">
           <label>Book name: </label>
-          <input type="text" />
+          <input
+            type="text"
+            name="name"
+            value={name}
+            onChange={this.handleChange}
+          />
         </div>
 
         <div className="field">
           <label>Genre: </label>
-          <input type="text" />
+          <input
+            type="text"
+            name="genre"
+            value={genre}
+            onChange={this.handleChange}
+          />
         </div>
 
         <div className="field">
           <label>Author: </label>
-          <select>
+          <select
+            name="authorid"
+            onChange={this.handleChange}
+            // onChange={e => this.setState({ authorid: e.target.value })}
+          >
             <option>Select Author</option>
             {this.displayAuthors()}
           </select>
