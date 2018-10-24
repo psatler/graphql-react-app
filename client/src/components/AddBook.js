@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { graphql, compose } from "react-apollo"; //react apollo bindings - it is bound using currying (at the export default below)
-import { getAuthorsQuery, addBookMutation } from "../queries/queries";
+import {
+  getAuthorsQuery,
+  addBookMutation,
+  getBooksQuery
+} from "../queries/queries";
 
 class AddBook extends Component {
   //initial state
@@ -26,7 +30,13 @@ class AddBook extends Component {
         name: this.state.name,
         genre: this.state.genre,
         authorid: this.state.authorid
-      }
+      }, //add a book and then refetch the books
+      refetchQueries: [
+        {
+          //telling which query we want to refetch
+          query: getBooksQuery
+        }
+      ]
     });
   };
 
