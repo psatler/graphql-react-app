@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { graphql } from "react-apollo"; //react apollo bindings - it is bound using currying (at the export default below)
-import { getAuthorsQuery } from "../queries/queries";
+import { graphql, compose } from "react-apollo"; //react apollo bindings - it is bound using currying (at the export default below)
+import { getAuthorsQuery, addBookMutation } from "../queries/queries";
 
 class AddBook extends Component {
   //initial state
@@ -20,12 +20,20 @@ class AddBook extends Component {
 
   submitForm = event => {
     console.log(this.state);
-    event.preventDefault(); //avoiding page refreshes
+    event.preventDefault(); //avoiding page refreshers
+    this.props.addBookMutation({
+      variables: {
+        name: this.state.name,
+        genre: this.state.genre,
+        authorid: this.state.authorid
+      }
+    });
   };
 
   //function to load authors from server and populate the options
   displayAuthors = () => {
-    const data = this.props.data;
+    // console.log(this.props);
+    const data = this.props.getAuthorsQuery;
     if (data.loading) {
       //if it's still loading, display a disabled option
       return <option disabled>Loading authors...</option>;
@@ -84,5 +92,11 @@ class AddBook extends Component {
   }
 }
 
-export default graphql(getAuthorsQuery)(AddBook); //using the bindings from react apollo and the constructed query above
+export default compose(
+  //using compose to make more than one query
+  graphql(getAuthorsQuery, { name: "getAuthorsQuery" }), //giving names so we can differentiate each query
+  graphql(addBookMutation, { name: "addBookMutation" })
+)(AddBook);
+
+// export default graphql(getAuthorsQuery)(AddBook); //using the bindings from react apollo and the constructed query above
 //we have access to the data queried from gql server using the component's props
